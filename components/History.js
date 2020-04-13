@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-import { View,Text} from 'react-native'
+import { View,Text,StyleSheet, TouchableOpacity, Platform} from 'react-native'
 import { fetchCalendarData } from '../utils/api'
 import { getDailyReminderValue, timeToString} from '../utils/helpers'
 import {receiveEntries, addEntry } from '../actions'
 import { connect } from 'react-redux'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
+import { white } from '../utils/colors'
+import DateHeader from './DateHeader'
+import MetricCard from './MetricCard'
 
 class History extends Component{
     componentDidMount() {
@@ -19,20 +22,30 @@ class History extends Component{
         })
     }
     renderItem = ({today, ...metrics}, formattedDate, key)=>(
-            <View>
+            <View style={styles.item}>
                 {
                     today
-                    ? <Text>{JSON.stringify(today)}</Text>
-                    :<Text>{JSON.stringify(metrics)}</Text>
+                    ?<View> 
+                        <DateHeader date={formattedDate} />
+                        <Text style={styles.noDataText}>
+                            {today}
+                        </Text>
+                    </View>
+                    :<TouchableOpacity onPress={()=> {console.log('pressed!')}}>
+                       <MetricCard metric={metric} date={formattedDate} />   
+                    </TouchableOpacity>
                 }
             </View>
     )
     renderEmptyDate(formattedDate){ return (
-            <View>
-                <Text>No Data for this day</Text>
-            </View>
+        <View> 
+            <DateHeader date={formattedDate} />
+                <Text style={styles.noDataText}>
+                    You didn't log any data on this day
+                </Text>
+        </View>
         )
-    }
+    }  
     render() {
         const { entries } = this.props
 
@@ -46,9 +59,31 @@ class History extends Component{
     }
 }
 
+const styles = StyleSheet.create({
+    item: {
+      backgroundColor: white,
+      padding:20,
+      marginLeft:10,
+      marginRight:10,
+      borderRadius: Platform.OS === 'ios' ? 16  : 2, 
+      justifyContent: 'center',
+      shadowRadius: 3,
+      shadowColor: 'rgba(0,0,0,0.24)',
+      shadowOpacity:0.8,
+      shadowOffset: {
+          width:0,
+          height:0
+      },
+    },
+    noDataText: {
+        fontSize:20,
+        paddingTop:20,
+        paddingBottom:20
+    }
+})
 function mapStateToProps(entries){
     return {
-        entries
+        entries   
     }
 }
 export default connect(mapStateToProps)(History)
