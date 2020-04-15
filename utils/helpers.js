@@ -1,3 +1,8 @@
+import React from 'react'
+import { View ,StyleSheet} from 'react-native'
+import { MaterialCommunityIcons, MaterialIcons, FontAwesome, } from '@expo/vector-icons';
+import { white, lightPurp,red,blue,orange,pink } from '../utils/colors'
+
 export function isBetween (num, x, y) {
     if (num >= x && num <= y) {
       return true
@@ -39,6 +44,18 @@ export function isBetween (num, x, y) {
     const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
     return todayUTC.toISOString().split('T')[0]
   }
+  const styles = StyleSheet.create({
+    iconContainer : {
+      padding:5,
+      borderRadius:8,
+      width:50,
+      height:50,
+      justifyContent:'center',
+      alignItems:'center',
+      marginRight:20
+    }
+  })
+
   export function getMetricMetaInfo(metric) {
     const info = {
       run: {
@@ -49,13 +66,12 @@ export function isBetween (num, x, y) {
         type: 'steppers',
         getIcon() {
           return (
-            <View>
+            <View style={[styles.iconContainer],{backgroundColor:red}}>
               <MaterialIcons
                 name='directions-run'
                 color={white}
                 size={35}
               />
-              <MaterialIcons name="directions-run" color={"black"} size={35} />
             </View>
           )
         }
@@ -68,13 +84,11 @@ export function isBetween (num, x, y) {
         type: "steppers",
         getIcon() {
           return (
-            <View>
-              <MaterialCommunityIcons
-                name='bike'
-                color={white}
-                size={32}
-              />
-              <MaterialCommunityIcons name="bike" color={white} size={32} />
+            <View style={[styles.iconContainer],{backgroundColor:orange}}>
+              <MaterialCommunityIcons 
+                name="bike" 
+                color={white} 
+                size={35} />
             </View>
           );
         }
@@ -87,13 +101,12 @@ export function isBetween (num, x, y) {
         type: 'steppers',
         getIcon() {
           return (
-            <View>
+            <View style={[styles.iconContainer],{backgroundColor:blue}}>
               <MaterialCommunityIcons
                 name='swim'
                 color={white}
                 size={35}
               />
-              <MaterialCommunityIcons name="swim" color={white} size={35} />
             </View>
           );
         }
@@ -106,13 +119,12 @@ export function isBetween (num, x, y) {
         type: 'slider',
         getIcon() {
           return (
-            <View>
+            <View style={[styles.iconContainer],{backgroundColor:lightPurp}}>
               <FontAwesome
                 name='bed'
                 color={white}
-                size={30}
+                size={35}
               />
-              <FontAwesome name="bed" color={white} size={30} />
             </View>
           );
         }
@@ -125,21 +137,17 @@ export function isBetween (num, x, y) {
         type: 'slider',
         getIcon() {
           return (
-            <View>
+            <View style={[styles.iconContainer],{backgroundColor:pink}}>
               <MaterialCommunityIcons
                 name='food'
                 color={white}
                 size={35}
               />
-              <MaterialCommunityIcons name="food" color={white} size={35} />
             </View>
           );
         }
       },
     }
-    return typeof metric === 'undefined'
-      ? info
-      : info[metric]
     return typeof metric === "undefined" ? info : info[metric];
   }
 

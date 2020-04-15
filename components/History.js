@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View,Text,StyleSheet, TouchableOpacity, Platform} from 'react-native'
 import { fetchCalendarData } from '../utils/api'
 import { getDailyReminderValue, timeToString} from '../utils/helpers'
-import {receiveEntries, addEntry } from '../actions'
+import { receiveEntries, addEntry } from '../actions'
 import { connect } from 'react-redux'
 import UdaciFitnessCalendar from 'udacifitness-calendar'
 import { white } from '../utils/colors'
@@ -32,13 +32,13 @@ class History extends Component{
                         </Text>
                     </View>
                     :<TouchableOpacity onPress={()=> {console.log('pressed!')}}>
-                       <MetricCard metric={metric} date={formattedDate} />   
+                       <MetricCard metrics={metrics} date={formattedDate} />   
                     </TouchableOpacity>
                 }
             </View>
     )
     renderEmptyDate(formattedDate){ return (
-        <View> 
+        <View style={styles.item}> 
             <DateHeader date={formattedDate} />
                 <Text style={styles.noDataText}>
                     You didn't log any data on this day
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
       padding:20,
       marginLeft:10,
       marginRight:10,
+      marginTop:17,
       borderRadius: Platform.OS === 'ios' ? 16  : 2, 
       justifyContent: 'center',
       shadowRadius: 3,
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
       shadowOpacity:0.8,
       shadowOffset: {
           width:0,
-          height:0
+          height:3
       },
     },
     noDataText: {
